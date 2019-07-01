@@ -8,5 +8,10 @@ namespace WorldData.world
     {
         List<City> GetCities();
         City GetCity(int id);
+        void AddCity(City city);
+        void UpdateCity(City updatedCity);
+        void DeleteCity(int cityID);
+        List<City> FindCitiesByName(string name);
+        List<City> FindCitiesByCountryCode(string countryCode);
     }
 }

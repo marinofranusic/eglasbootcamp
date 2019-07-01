@@ -14,6 +14,80 @@ namespace WorldData.world
             _context = ctx;
         }
 
+        public void AddCity(City city)
+        {
+            var existingCity = _context.Cities.Find(city.Id);
+            if(existingCity == null)
+            {
+                _context.Cities.Add(city);
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException("City with that ID already exists.");
+            }
+        }
+
+        public void UpdateCity(City updatedCity)
+        {
+            var existingCity = _context.Cities.Find(updatedCity.Id);
+            if (existingCity != null)
+            {
+                existingCity.Name = updatedCity.Name;
+                existingCity.District = updatedCity.District;
+                existingCity.Population = updatedCity.Population;
+                existingCity.CountryCode = updatedCity.CountryCode;
+
+                _context.Entry(existingCity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException("City with that ID doesn't exist.");
+            }
+        }
+
+        public void DeleteCity(int cityID)
+        {
+            var existingCity = _context.Cities.Find(cityID);
+            if (existingCity != null)
+            {
+                _context.Cities.Remove(existingCity);
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException("City with that ID doesn't exist.");
+            }
+        }
+
+        public List<City> FindCitiesByCountryCode(string countryCode)
+        {
+            var query = _context.Cities.AsQueryable();
+            try
+            {
+                return query.Where(x => x.CountryCode == countryCode).ToList();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return null;
+            }
+        }
+
+        public List<City> FindCitiesByName(string name)
+        {
+            var query = _context.Cities.AsQueryable();
+            try
+            {
+                return query.Where(x => x.Name == name).ToList();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return null;
+            }
+        }
+
         public List<City> GetCities()
         {
             return _context.Cities.ToList();
@@ -31,5 +105,7 @@ namespace WorldData.world
                 return null;
             }
         }
+
+        
     }
 }
