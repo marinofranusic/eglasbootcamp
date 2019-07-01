@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WorldData.world
 {
-    interface ICityService
+    public interface ICityService
     {
         List<City> GetCities();
         City GetCity(int id);
