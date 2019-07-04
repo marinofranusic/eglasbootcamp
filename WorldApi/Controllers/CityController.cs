@@ -26,6 +26,12 @@ namespace WorldApi.Controllers
             return _cityService.GetCities();
         }
 
+        [HttpGet("alive")]
+        public ActionResult<string> IsAlive()
+        {
+            return "OK";
+        }
+
         [HttpGet("{id}")]
         public ActionResult<City> GetCity(int id)
         {
